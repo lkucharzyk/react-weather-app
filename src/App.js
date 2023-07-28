@@ -1,9 +1,11 @@
 import './App.scss';
-import { Header } from './components/Header';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { Header } from './components/Header';
 import { CurrentW } from './components/CurrentW';
+import { ForecastDaily } from './components/ForecastDaily';
+
 
 function App() {
   
@@ -11,7 +13,9 @@ function App() {
   const apiUrl = 'http://api.weatherapi.com/v1';
 
   const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
   const [location, setLocation] = useState('warsaw');
+  const [dailyForecastExpanded, setDailyForecastExpanded] = useState(false);
 
   useEffect(() =>{
     if(process.env.NODE_ENV !== 'production'){
@@ -21,7 +25,7 @@ function App() {
     }
 
     getCurrentWeather();
-    forecast();
+    getforecast();
   }, [])
 
   const getCurrentWeather = async () =>{
@@ -33,9 +37,17 @@ function App() {
     }
   }
 
-  const forecast = async () =>{
-    const res = await axios.get('https://api.open-meteo.com/v1/forecast?latitude=49.4304&longitude=22.5938&hourly=temperature_2m,rain&daily=temperature_2m_max&timezone=Europe%2FBerlin');
-    //console.log(res);
+  const getforecast = async () =>{
+    try {
+      const res = await axios.get(`${apiUrl}/forecast.json?key=${apiKey}&q=${location}&days=10`);
+      setForecast(res.data.forecast);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  const toggleExpand = () =>{
+    setDailyForecastExpanded(!dailyForecastExpanded);
   }
 
 
@@ -44,6 +56,7 @@ function App() {
       <Header/>
       <div className="container">
         {currentWeather !== null &&  <CurrentW currentWeather={currentWeather}/>}
+        {forecast !== null &&  <ForecastDaily forecast={forecast} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/>}
       </div>
     </div>
   );
