@@ -94,6 +94,7 @@ h5{
 
 .day-select{
   margin-top: 10px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
 
@@ -103,6 +104,29 @@ h5{
   p:hover{
     text-shadow: 0 0 5px white;
   }
+}
+
+.forecast-hour{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $secoundary-bg;
+  margin-bottom: 5px;
+  &>*{
+    display: block;
+    min-width: 100px;
+  }
+  i{
+    font-size: 15px;
+    margin-right: 5px;
+  }
+  img{
+    width: 35px;
+  }
+}
+
+.current-hour{
+  border-bottom: 2px solid white;
 }
 
 @media(min-width: 1000px) {

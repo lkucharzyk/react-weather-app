@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { CurrentW } from './components/CurrentW';
 import { ForecastDaily } from './components/ForecastDaily'
 import { HourlyForecast } from './components/HourlyForecast';
+import { Location } from './components/Location';
 
 
 function App() {
@@ -15,8 +16,8 @@ function App() {
 
   const [currentWeather, setCurrentWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
-  const [location, setLocation] = useState('warsaw');
-  const [dailyForecastExpanded, setDailyForecastExpanded] = useState(false);
+  const [location, setLocation] = useState('52.1347,21.0042');
+  const [dailyForecastExpanded, setDailyForecastExpanded] = useState(true);
   const [hourlyForecastDay, setHourlyForecastDay] = useState(null);
 
   useEffect(() =>{
@@ -26,12 +27,32 @@ function App() {
         
     }
 
+   // getUserLocation();
     getCurrentWeather();
     getforecast();
   }, [])
 
+  // const getUserLocation = ()=>{
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(success, error);
+  //   } else {
+  //     console.log("Geolocation not supported");
+  //   }
+    
+  //   function success(position) {
+  //     const latitude = position.coords.latitude;
+  //     const longitude = position.coords.longitude;
+  //     setLocation(`${latitude},${longitude}`);
+  //   }
+    
+  //   function error() {
+  //     console.log("Unable to retrieve your location");
+  //   }
+  // }
+
   const getCurrentWeather = async () =>{
     try {
+      console.log(location);
       const res = await axios.get(`${apiUrl}/current.json?key=${apiKey}&q=${location}`);
       setCurrentWeather(res.data);
       
@@ -64,6 +85,7 @@ function App() {
       <Header/>
       <div className="container">
         <div className="column">
+          {currentWeather !== null ?  <Location location={currentWeather.location}/> : <p>Loading data...</p>}
           {currentWeather !== null ?  <CurrentW currentWeather={currentWeather}/> : <p>Loading data...</p>}
           {forecast !== null ?  <HourlyForecast forecast={forecast}  hourlyForecastDay={hourlyForecastDay} changeHourlyForecastDay={changeHourlyForecastDay}/> : <p>Loading data...</p>}
           

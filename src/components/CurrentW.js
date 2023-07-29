@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 
 export const CurrentW = ({currentWeather}) => {
 
-  // useEffect(() =>{
-  //   console.log(currentWeather.current);
-  // })
+  useEffect(() =>{
+    console.log(currentWeather);
+  })
   const {current} = currentWeather
   return (
     <section className='main-module'>

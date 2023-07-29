@@ -2,11 +2,6 @@ import { useEffect} from 'react';
 import { ForecastDay } from './ForecastDay';
 
 export const ForecastDaily = ({forecast, dailyForecastExpanded, toggleExpand}) => {
-
-  useEffect(() =>{
-    console.log(forecast);
-  })
-
   return (
     <section className={`main-module ${!dailyForecastExpanded && 'rolled'}`}>
         <div className='header' onClick={toggleExpand}>
