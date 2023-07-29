@@ -4,7 +4,8 @@ import axios from 'axios';
 
 import { Header } from './components/Header';
 import { CurrentW } from './components/CurrentW';
-import { ForecastDaily } from './components/ForecastDaily';
+import { ForecastDaily } from './components/ForecastDaily'
+import { HourlyForecast } from './components/HourlyForecast';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [forecast, setForecast] = useState(null);
   const [location, setLocation] = useState('warsaw');
   const [dailyForecastExpanded, setDailyForecastExpanded] = useState(false);
+  const [hourlyForecastDay, setHourlyForecastDay] = useState(null);
 
   useEffect(() =>{
     if(process.env.NODE_ENV !== 'production'){
@@ -32,6 +34,7 @@ function App() {
     try {
       const res = await axios.get(`${apiUrl}/current.json?key=${apiKey}&q=${location}`);
       setCurrentWeather(res.data);
+      
     } catch (error) {
         console.log(error);
     }
@@ -41,6 +44,7 @@ function App() {
     try {
       const res = await axios.get(`${apiUrl}/forecast.json?key=${apiKey}&q=${location}&days=10`);
       setForecast(res.data.forecast);
+      setHourlyForecastDay(res.data.forecast.forecastday[0])
     } catch (error) {
         console.log(error);
     }
@@ -50,13 +54,23 @@ function App() {
     setDailyForecastExpanded(!dailyForecastExpanded);
   }
 
+  const changeHourlyForecastDay = day =>{
+    setHourlyForecastDay(day)
+  }
+
 
   return (
     <div className="App">
       <Header/>
       <div className="container">
-        {currentWeather !== null &&  <CurrentW currentWeather={currentWeather}/>}
-        {forecast !== null &&  <ForecastDaily forecast={forecast} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/>}
+        <div className="column">
+          {currentWeather !== null ?  <CurrentW currentWeather={currentWeather}/> : <p>Loading data...</p>}
+          {forecast !== null ?  <HourlyForecast forecast={forecast}  hourlyForecastDay={hourlyForecastDay} changeHourlyForecastDay={changeHourlyForecastDay}/> : <p>Loading data...</p>}
+          
+          </div>
+        <div className="column">
+          {forecast !== null ?  <ForecastDaily forecast={forecast} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/> : <p>Loading data...</p>}
+        </div>
       </div>
     </div>
   );
