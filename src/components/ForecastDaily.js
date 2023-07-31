@@ -9,7 +9,7 @@ export const ForecastDaily = ({forecast, dailyForecastExpanded, toggleExpand}) =
         </div>
         <ul>
             {forecast.forecastday.map(day => {
-                return <ForecastDay dayForecast={day}/>
+                return <ForecastDay key={day.date} dayForecast={day}/>
             })}
         </ul>
     </section>

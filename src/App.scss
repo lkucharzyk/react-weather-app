@@ -129,6 +129,8 @@ h5{
   border-bottom: 2px solid white;
 }
 
+.map { height: 280px; }
+
 @media(min-width: 1000px) {
   .container{
     display: grid;
@@ -139,3 +141,4 @@ h5{
     }
   }
 }
+

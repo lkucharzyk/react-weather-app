@@ -12,21 +12,27 @@ import { Location } from './components/Location';
 function App() {
   
   let apiKey;
+  if(process.env.NODE_ENV !== 'production'){
+    apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  }else{
+      
+  }
   const apiUrl = 'http://api.weatherapi.com/v1';
 
-  const [currentWeather, setCurrentWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
-  const [location, setLocation] = useState('52.1347,21.0042');
+  const [currentWeather, setCurrentWeather] = useState({
+    data: null,
+    loading: true
+  });
+  const [forecast, setForecast] = useState({
+    data: null,
+    loading: true
+  });
+  const [location, setLocation] = useState('52.1847,21.0002');
+  const [markerAnchor, setMarkerAnchor] = useState([52.1847, 21.0002]);
   const [dailyForecastExpanded, setDailyForecastExpanded] = useState(true);
   const [hourlyForecastDay, setHourlyForecastDay] = useState(null);
 
   useEffect(() =>{
-    if(process.env.NODE_ENV !== 'production'){
-        apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-    }else{
-        
-    }
-
    // getUserLocation();
     getCurrentWeather();
     getforecast();
@@ -52,9 +58,11 @@ function App() {
 
   const getCurrentWeather = async () =>{
     try {
-      console.log(location);
       const res = await axios.get(`${apiUrl}/current.json?key=${apiKey}&q=${location}`);
-      setCurrentWeather(res.data);
+      setCurrentWeather({
+        data: res.data,
+        loading: false
+      });
       
     } catch (error) {
         console.log(error);
@@ -64,7 +72,10 @@ function App() {
   const getforecast = async () =>{
     try {
       const res = await axios.get(`${apiUrl}/forecast.json?key=${apiKey}&q=${location}&days=10`);
-      setForecast(res.data.forecast);
+      setForecast({
+        data: res.data.forecast,
+        loading: false
+      });
       setHourlyForecastDay(res.data.forecast.forecastday[0])
     } catch (error) {
         console.log(error);
@@ -79,19 +90,28 @@ function App() {
     setHourlyForecastDay(day)
   }
 
+  const changeLocation = location =>{
+    console.log(location);
+    setLocation(location);
+    getCurrentWeather();
+    getforecast();
+  }
+  
+  const changeMarkerAnchor = anchor => setMarkerAnchor(anchor);
+
 
   return (
     <div className="App">
       <Header/>
       <div className="container">
         <div className="column">
-          {currentWeather !== null ?  <Location location={currentWeather.location}/> : <p>Loading data...</p>}
-          {currentWeather !== null ?  <CurrentW currentWeather={currentWeather}/> : <p>Loading data...</p>}
-          {forecast !== null ?  <HourlyForecast forecast={forecast}  hourlyForecastDay={hourlyForecastDay} changeHourlyForecastDay={changeHourlyForecastDay}/> : <p>Loading data...</p>}
+          {!currentWeather.loading ?  <Location location={currentWeather.data.location} markerAnchor={markerAnchor} changeMarkerAnchor={changeMarkerAnchor} changeLocation={changeLocation}/> : <p>Loading data...</p>}
+          {!currentWeather.loading ?  <CurrentW currentWeather={currentWeather.data}/> : <p>Loading data...</p>}
+          {!forecast.loading ?  <HourlyForecast forecast={forecast.data}  hourlyForecastDay={hourlyForecastDay} changeHourlyForecastDay={changeHourlyForecastDay}/> : <p>Loading data...</p>}
           
           </div>
         <div className="column">
-          {forecast !== null ?  <ForecastDaily forecast={forecast} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/> : <p>Loading data...</p>}
+          {!forecast.loading?  <ForecastDaily forecast={forecast.data} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/> : <p>Loading data...</p>}
         </div>
       </div>
     </div>
