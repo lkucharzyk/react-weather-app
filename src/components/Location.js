@@ -6,11 +6,9 @@ export const Location = ({location, changeLocation, markerAnchor, changeMarkerAn
  // useEffect(()=> console.log(markerAnchor))
 
   const mapOnClick = e =>{
-    changeLocation(e.latLng.join(','))
     changeMarkerAnchor(e.latLng);
+    changeLocation(e.latLng.join(','))
   }
-  
-  //ZROBIĆ PROP DO getCurrentWeather(); getforecast();
   
   return (
     

@@ -36,7 +36,8 @@ function App() {
    // getUserLocation();
     getCurrentWeather();
     getforecast();
-  }, [])
+  },[location])
+
 
   // const getUserLocation = ()=>{
   //   if (navigator.geolocation) {
@@ -98,9 +99,8 @@ function App() {
     setHourlyForecastDay(day)
   }
 
-  const changeLocation = location =>{    
-    setLocation(location);
-    
+  const changeLocation = loc =>{  
+    setLocation(loc)
   }
 
   
