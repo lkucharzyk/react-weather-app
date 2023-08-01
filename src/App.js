@@ -1,5 +1,5 @@
 import './App.scss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { Header } from './components/Header';
@@ -58,6 +58,10 @@ function App() {
 
   const getCurrentWeather = async () =>{
     try {
+      setCurrentWeather({
+        ...currentWeather,
+        loading: true
+      });
       const res = await axios.get(`${apiUrl}/current.json?key=${apiKey}&q=${location}`);
       setCurrentWeather({
         data: res.data,
@@ -71,6 +75,10 @@ function App() {
 
   const getforecast = async () =>{
     try {
+      setForecast({
+        ...forecast,
+        loading: true
+      });
       const res = await axios.get(`${apiUrl}/forecast.json?key=${apiKey}&q=${location}&days=10`);
       setForecast({
         data: res.data.forecast,
@@ -90,12 +98,11 @@ function App() {
     setHourlyForecastDay(day)
   }
 
-  const changeLocation = location =>{
-    console.log(location);
+  const changeLocation = location =>{    
     setLocation(location);
-    getCurrentWeather();
-    getforecast();
+    
   }
+
   
   const changeMarkerAnchor = anchor => setMarkerAnchor(anchor);
 
