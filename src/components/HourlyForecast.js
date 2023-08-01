@@ -1,23 +1,25 @@
 import React from 'react'
 import { ForecastHour } from './ForecastHour';
 
-export const HourlyForecast = ({hourlyForecastDay, forecast, changeHourlyForecastDay}) => {
-  const prevDay = forecast.forecastday[forecast.forecastday.indexOf(hourlyForecastDay) -1];
-  const nextDay = forecast.forecastday[forecast.forecastday.indexOf(hourlyForecastDay) +1];
+export const HourlyForecast = ({hourlyForecastDay, forecast, loading, changeHourlyForecastDay}) => {
+    const prevDay = forecast.forecastday[forecast.forecastday.indexOf(hourlyForecastDay) -1];
+    const nextDay = forecast.forecastday[forecast.forecastday.indexOf(hourlyForecastDay) +1];
 
-  const onClick = e =>{
-    if(e.target.classList.contains('prev') || e.target.parentNode.classList.contains('prev') ){
-      changeHourlyForecastDay(prevDay)
-    }else if(e.target.classList.contains('next') || e.target.parentNode.classList.contains('next') ){
-      changeHourlyForecastDay(nextDay)
+    const onClick = e =>{
+      if(e.target.classList.contains('prev') || e.target.parentNode.classList.contains('prev') ){
+        changeHourlyForecastDay(prevDay)
+      }else if(e.target.classList.contains('next') || e.target.parentNode.classList.contains('next') ){
+        changeHourlyForecastDay(nextDay)
+      }
     }
-  }
+  
 
   return (
     <section className='main-module'>
         <div className='header'>
             <h2>Hourly Forecast</h2>
         </div>
+        {loading && <div className="loading"><p>Loading new location...</p></div>}
 
         <div className="day-select" onClick={onClick}>
           {!prevDay ?  (<p>---</p>) : (<p className='prev'><i class="fa-solid fa-angle-left"></i> {prevDay.date}  </p>)} 
@@ -26,6 +28,8 @@ export const HourlyForecast = ({hourlyForecastDay, forecast, changeHourlyForecas
         </div>
 
         {hourlyForecastDay.hour.map(hour => <ForecastHour hour={hour} key={hour.time}/>)}
+
+        
         
     </section>
   )

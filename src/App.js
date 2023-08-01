@@ -21,11 +21,13 @@ function App() {
 
   const [currentWeather, setCurrentWeather] = useState({
     data: null,
-    loading: true
+    loading: true,
+    firstLoad: true
   });
   const [forecast, setForecast] = useState({
     data: null,
-    loading: true
+    loading: true,
+    firstLoad: true
   });
   const [location, setLocation] = useState('52.1847,21.0002');
   const [markerAnchor, setMarkerAnchor] = useState([52.1847, 21.0002]);
@@ -61,12 +63,13 @@ function App() {
     try {
       setCurrentWeather({
         ...currentWeather,
-        loading: true
+        loading: true,
       });
       const res = await axios.get(`${apiUrl}/current.json?key=${apiKey}&q=${location}`);
       setCurrentWeather({
         data: res.data,
-        loading: false
+        loading: false,
+        firstLoad: false
       });
       
     } catch (error) {
@@ -83,7 +86,8 @@ function App() {
       const res = await axios.get(`${apiUrl}/forecast.json?key=${apiKey}&q=${location}&days=10`);
       setForecast({
         data: res.data.forecast,
-        loading: false
+        loading: false,
+        firstLoad: false
       });
       setHourlyForecastDay(res.data.forecast.forecastday[0])
     } catch (error) {
@@ -112,13 +116,13 @@ function App() {
       <Header/>
       <div className="container">
         <div className="column">
-          {!currentWeather.loading ?  <Location location={currentWeather.data.location} markerAnchor={markerAnchor} changeMarkerAnchor={changeMarkerAnchor} changeLocation={changeLocation}/> : <p>Loading data...</p>}
-          {!currentWeather.loading ?  <CurrentW currentWeather={currentWeather.data}/> : <p>Loading data...</p>}
-          {!forecast.loading ?  <HourlyForecast forecast={forecast.data}  hourlyForecastDay={hourlyForecastDay} changeHourlyForecastDay={changeHourlyForecastDay}/> : <p>Loading data...</p>}
+          {<Location currentWeather={currentWeather.data} markerAnchor={markerAnchor} loading={currentWeather.loading} firstLoad={currentWeather.firstLoad} changeMarkerAnchor={changeMarkerAnchor} changeLocation={changeLocation}/>}
+          {<CurrentW currentWeather={currentWeather.data} loading={currentWeather.loading} firstLoad={currentWeather.firstLoad}/>}
+          {!forecast.firstLoad ? <HourlyForecast forecast={forecast.data}  hourlyForecastDay={hourlyForecastDay} loading={forecast.loading} firstLoad={forecast.firstLoad} changeHourlyForecastDay={changeHourlyForecastDay}/> : <div className='loading'></div>}
           
           </div>
         <div className="column">
-          {!forecast.loading?  <ForecastDaily forecast={forecast.data} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/> : <p>Loading data...</p>}
+          <ForecastDaily forecast={forecast.data} loading={forecast.loading} firstLoad={forecast.firstLoad} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/>
         </div>
       </div>
     </div>

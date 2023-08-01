@@ -2,23 +2,29 @@ import React, { useEffect } from 'react';
 import { Map, Marker } from "pigeon-maps"
 
 
-export const Location = ({location, changeLocation, markerAnchor, changeMarkerAnchor}) => {
- // useEffect(()=> console.log(markerAnchor))
+export const Location = ({currentWeather, changeLocation, loading, firstLoad, markerAnchor, changeMarkerAnchor}) => {
 
   const mapOnClick = e =>{
     changeMarkerAnchor(e.latLng);
     changeLocation(e.latLng.join(','))
   }
   
+  
+
+  
   return (
     
     <section className='main-module'>
-      <h2>{location.name}</h2>
+      <h2>{ firstLoad ? 'Loading...' : currentWeather.location.name}</h2>
+      {loading && !firstLoad && <div className="loading"><p>Loading new location...</p></div>}
       <p>Click on map to change location</p>
-      <Map height={300} defaultCenter={markerAnchor} defaultZoom={10}  onClick={mapOnClick}>
-        <Marker width={50} anchor={markerAnchor} />
-      </Map>
+      <div className="map-container">
+        <Map height={300} defaultCenter={markerAnchor} defaultZoom={4}  onClick={mapOnClick}>
+          <Marker width={50} anchor={markerAnchor} />
+        </Map>
+      </div>
     </section>
   )
+
   
 }

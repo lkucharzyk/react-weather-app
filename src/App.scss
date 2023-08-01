@@ -14,8 +14,16 @@ $secoundary-bg: rgb(100, 116, 136);
   margin: auto;
 }
 
+p{
+  font-style: italic;
+}
+
 h1{
   padding-bottom: 20px;
+}
+
+h2{
+  padding-bottom: 10px;
 }
 
 h5{
@@ -129,7 +137,24 @@ h5{
   border-bottom: 2px solid white;
 }
 
-.map { height: 280px; }
+.map-container{
+  padding-top: 10px;
+  min-height: 300px;
+}
+.loading{
+  display: flex;
+  color: rgb(78, 78, 78)
+}
+
+.loading:before{
+  content: '';
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 10px;
+  background-image: url('./img/loading-gif.gif');
+  background-size: cover;
+}
 
 @media(min-width: 1000px) {
   .container{
