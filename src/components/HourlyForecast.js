@@ -19,7 +19,9 @@ export const HourlyForecast = ({hourlyForecastDay, forecast, loading, changeHour
         <div className='header'>
             <h2>Hourly Forecast</h2>
         </div>
-        {loading && <div className="loading"><p>Loading new location...</p></div>}
+        <div className="loading-wraper">
+          {loading && <div className="loading"><p>Loading new location...</p></div>}
+        </div>
 
         <div className="day-select" onClick={onClick}>
           {!prevDay ?  (<p>---</p>) : (<p className='prev'><i class="fa-solid fa-angle-left"></i> {prevDay.date}  </p>)} 

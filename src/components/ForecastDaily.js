@@ -7,7 +7,9 @@ export const ForecastDaily = ({forecast, dailyForecastExpanded, loading, firstLo
         <div className='header' onClick={toggleExpand}>
             <h2>Daily Forecast</h2><i class="fa-solid fa-angle-down"></i>
         </div>
-        {loading && !firstLoad && <div className="loading"><p>Loading new location...</p></div>}
+        <div className="loading-wraper">
+          {loading && !firstLoad && <div className="loading"><p>Loading new location...</p></div>}
+        </div>
         <ul>
           {firstLoad ? 'Loading':   
           forecast.forecastday.map(day => {

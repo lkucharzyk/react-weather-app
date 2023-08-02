@@ -7,7 +7,9 @@ export const CurrentW = ({currentWeather, loading, firstLoad}) => {
         <h2>Current Weather</h2>
         {firstLoad ? 'Loading...' :
         <>
-        {loading && !firstLoad && <div className="loading"><p>Loading new location...</p></div>}
+        <div className="loading-wraper">
+         {loading && !firstLoad && <div className="loading"><p>Loading new location...</p></div>}
+        </div>
         <ul>
             <li><i class="fa-solid fa-temperature-low"/>{currentWeather.current.temp_c} &#176;C</li>
             <li><i class="fa-solid fa-droplet"></i>{currentWeather.current.precip_mm} mm</li>

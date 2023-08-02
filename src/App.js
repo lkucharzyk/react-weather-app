@@ -22,7 +22,8 @@ function App() {
   const [currentWeather, setCurrentWeather] = useState({
     data: null,
     loading: true,
-    firstLoad: true
+    firstLoad: true,
+    noLocationData: false
   });
   const [forecast, setForecast] = useState({
     data: null,
@@ -73,7 +74,16 @@ function App() {
       });
       
     } catch (error) {
+      if(error.response.data.error.code === 1006){
+        console.log('Sorry, no data for selected location', error );
+        setCurrentWeather({
+          ...currentWeather,
+          loading: false,
+          noLocationData: true
+        });
+      }else{
         console.log(error);
+      }
     }
   }
 
@@ -91,7 +101,16 @@ function App() {
       });
       setHourlyForecastDay(res.data.forecast.forecastday[0])
     } catch (error) {
+      if(error.response.data.error.code === 1006){
+        console.log('Sorry, no data for selected location', error );
+        setForecast({
+          ...forecast,
+          loading: false,
+          noLocationData: true
+        });
+      }else{
         console.log(error);
+      }
     }
   }
 
@@ -116,7 +135,7 @@ function App() {
       <Header/>
       <div className="container">
         <div className="column">
-          {<Location currentWeather={currentWeather.data} markerAnchor={markerAnchor} loading={currentWeather.loading} firstLoad={currentWeather.firstLoad} changeMarkerAnchor={changeMarkerAnchor} changeLocation={changeLocation}/>}
+          {<Location currentWeather={currentWeather.data} markerAnchor={markerAnchor} loading={currentWeather.loading} firstLoad={currentWeather.firstLoad} noLocationData={currentWeather.noLocationData} changeMarkerAnchor={changeMarkerAnchor} changeLocation={changeLocation}/>}
           {<CurrentW currentWeather={currentWeather.data} loading={currentWeather.loading} firstLoad={currentWeather.firstLoad}/>}
           {!forecast.firstLoad ? <HourlyForecast forecast={forecast.data}  hourlyForecastDay={hourlyForecastDay} loading={forecast.loading} firstLoad={forecast.firstLoad} changeHourlyForecastDay={changeHourlyForecastDay}/> : <div className='loading'></div>}
           
