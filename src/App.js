@@ -41,7 +41,7 @@ function App() {
    // getUserLocation();
     getCurrentWeather();
     getforecast();
-  },[location])
+  }, [location])
 
 
   // const getUserLocation = ()=>{
