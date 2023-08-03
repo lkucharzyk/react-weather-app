@@ -13,12 +13,13 @@ import { IconsMenu } from './components/IconsMenu';
 function App() {
   
   let apiKey;
+  console.log(process.env);
   if(process.env.NODE_ENV !== 'production'){
     apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   }else{
-      
+    apiKey = process.env.WEATHER_API_KEY;
   }
-  const apiUrl = 'http://api.weatherapi.com/v1';
+  const apiUrl = 'https://api.weatherapi.com/v1';
 
   const [currentWeather, setCurrentWeather] = useState({
     data: null,
