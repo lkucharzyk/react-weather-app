@@ -14,7 +14,7 @@ export const Location = ({currentWeather, changeLocation, loading, firstLoad, no
   
   return (
     <>
-    <section className='main-module' style={{zIndex: '999', position: 'relative'}}>
+    <section className='main-module' id='location' style={{zIndex: '99', position: 'relative'}}>
       <h2>{ firstLoad ? 'Loading...' : currentWeather.location.name}</h2>
       <div className="loading-wraper">
         {loading && !firstLoad && <div className="loading"><p>Loading new location...</p></div>}

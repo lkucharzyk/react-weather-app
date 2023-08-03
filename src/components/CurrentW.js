@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 export const CurrentW = ({currentWeather, loading, firstLoad}) => {
 
   return (
-    <section className='main-module'>
+    <section className='main-module' id='current'>
         <h2>Current Weather</h2>
         {firstLoad ? 'Loading...' :
         <>

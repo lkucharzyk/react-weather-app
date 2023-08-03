@@ -7,6 +7,7 @@ import { CurrentW } from './components/CurrentW';
 import { ForecastDaily } from './components/ForecastDaily'
 import { HourlyForecast } from './components/HourlyForecast';
 import { Location } from './components/Location';
+import { IconsMenu } from './components/IconsMenu';
 
 
 function App() {
@@ -144,6 +145,7 @@ function App() {
           <ForecastDaily forecast={forecast.data} loading={forecast.loading} firstLoad={forecast.firstLoad} dailyForecastExpanded={dailyForecastExpanded} toggleExpand={toggleExpand}/>
         </div>
       </div>
+      <IconsMenu/>
     </div>
   );
 }

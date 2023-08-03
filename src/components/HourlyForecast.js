@@ -15,7 +15,7 @@ export const HourlyForecast = ({hourlyForecastDay, forecast, loading, changeHour
   
 
   return (
-    <section className='main-module'>
+    <section className='main-module' id='hourly'>
         <div className='header'>
             <h2>Hourly Forecast</h2>
         </div>

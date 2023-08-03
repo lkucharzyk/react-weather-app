@@ -3,7 +3,7 @@ import { ForecastDay } from './ForecastDay';
 
 export const ForecastDaily = ({forecast, dailyForecastExpanded, loading, firstLoad, toggleExpand}) => {
   return (
-    <section className={`main-module ${!dailyForecastExpanded && 'rolled'}`}>
+    <section className={`main-module ${!dailyForecastExpanded && 'rolled'}`} id='daily'>
         <div className='header' onClick={toggleExpand}>
             <h2>Daily Forecast</h2><i class="fa-solid fa-angle-down"></i>
         </div>
